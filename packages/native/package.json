@@ -1,0 +1,21 @@
+{
+  "name": "@vscloud/native",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build:native": "cmake-js compile",
+    "build:ts": "tsc -p .",
+    "build": "npm run build:native && npm run build:ts"
+  },
+  "dependencies": {
+    "bindings": "^1.5.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node18-strictest-esm": "^1.0.1",
+    "@types/bindings": "^1.5.1",
+    "cmake-js": "^7.2.1",
+    "typescript": "^5.1.6"
+  }
+}
