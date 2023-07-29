@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, type FunctionalComponent } from 'vue';
+import type { FunctionalComponent } from 'vue';
 
 const props = defineProps<{
   label?: string,
