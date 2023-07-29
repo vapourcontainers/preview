@@ -6,5 +6,6 @@
     "outDir": "lib",
     "baseUrl": ".",
     "declaration": true,
+    "esModuleInterop": true,
   },
 }
