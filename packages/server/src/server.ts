@@ -2,6 +2,7 @@ import { createServer } from 'http';
 import express from 'express';
 import morgan from 'morgan';
 import { Server } from 'socket.io';
+import { resolve } from 'path';
 import { evaluateFile, type VSScript } from '@vscloud/native';
 
 const PORT = process.env['PORT'] || 3000;
@@ -17,6 +18,10 @@ if (ENV == 'development') {
   app.use(morgan('dev'));
 } else {
   app.use(morgan('combined'));
+}
+
+if (ENV == 'production') {
+  app.use(express.static(resolve('../frontend/dist')));
 }
 
 io.on('connection', (socket) => {
