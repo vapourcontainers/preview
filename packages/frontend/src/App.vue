@@ -72,7 +72,7 @@ import type { VSVideoInfo } from '@vscloud/native';
 
 import IconButton from '@/components/IconButton.vue';
 
-const socket = io('http://localhost:3000', {
+const socket = io(import.meta.env.VITE_VSCLOUD_SERVER, {
   transports: ['websocket'],
   extraHeaders: {
     'Access-Control-Allow-Origin': '*',
