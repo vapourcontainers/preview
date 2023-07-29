@@ -103,14 +103,14 @@ evaluate_file(napi_env env, napi_callback_info info)
 	napi_value args[1];
 	napi_get_cb_info(env, info, &argc, args, NULL, NULL);
 	if (argc != 1) {
-		napi_throw_error(env, "Error", "Invalid number of arguments");
+		napi_throw_error(env, "TypeError", "Invalid number of arguments");
 		return NULL;
 	}
 
 	napi_valuetype valuetype;
 	napi_typeof(env, args[0], &valuetype);
 	if (valuetype != napi_string) {
-		napi_throw_error(env, "Error", "Invalid argument type");
+		napi_throw_error(env, "TypeError", "Invalid argument type");
 		return NULL;
 	}
 
@@ -122,7 +122,9 @@ evaluate_file(napi_env env, napi_callback_info info)
 	vssapi->evalSetWorkingDir(script, 1);
 
 	if (vssapi->evaluateFile(script, file)) {
+		const char *error = vssapi->getError(script);
 		vssapi->freeScript(script);
+		napi_throw_error(env, "ScriptError", error);
 		return NULL;
 	}
 

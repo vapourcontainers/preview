@@ -52,8 +52,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import { theme } from 'ant-design-vue';
+import { computed, ref, h } from 'vue';
+import { Modal, theme } from 'ant-design-vue';
 import {
   FolderOpenOutlined,
   ReloadOutlined,
@@ -77,6 +77,21 @@ const socket = io(import.meta.env.VITE_VSCLOUD_SERVER, {
   extraHeaders: {
     'Access-Control-Allow-Origin': '*',
   },
+});
+
+socket.on('error', (err) => {
+  Modal.confirm({
+    title: '脚本错误',
+    content: h('code', { innerText: err }),
+    width: '800px',
+    okText: '确定',
+    cancelText: '重试',
+    onCancel() {
+      setTimeout(() => {
+        loadScript();
+      }, 0);
+    },
+  });
 });
 
 const frame = ref(0);

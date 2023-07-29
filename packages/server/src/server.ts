@@ -26,8 +26,13 @@ io.on('connection', (socket) => {
       script = undefined;
     }
 
-    script = evaluateFile(path);
-    callback(script.videoInfo);
+    try {
+      script = evaluateFile(path);
+      callback(script?.videoInfo);
+    } catch (e) {
+      socket.emit('error', (e as unknown as Error).message);
+      callback(undefined);
+    }
   });
 
   socket.on('request-frame', (n, callback) => {
