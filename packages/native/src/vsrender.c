@@ -170,11 +170,21 @@ evaluate_file(napi_env env, napi_callback_info info)
 
 NAPI_MODULE_INIT()
 {
+	char err_msg[256];
+
 	vssapi = getVSScriptAPI(VSSCRIPT_API_VERSION);
-	assert(vssapi);
+	if (vssapi == NULL) {
+		sprintf(err_msg, "VSScript API %08x is not supported", VSSCRIPT_API_VERSION);
+		napi_throw_error(env, "Error", err_msg);
+		return NULL;
+	}
 
 	vsapi = vssapi->getVSAPI(VAPOURSYNTH_API_VERSION);
-	assert(vsapi);
+	if (vsapi == NULL) {
+		sprintf(err_msg, "VS API %08x is not supported", VAPOURSYNTH_API_VERSION);
+		napi_throw_error(env, "Error", err_msg);
+		return NULL;
+	}
 
 	napi_value exported_function;
 	napi_create_function(
