@@ -1,10 +1,17 @@
+import { createServer } from 'http';
 import express from 'express';
 import morgan from 'morgan';
+import { Server } from 'socket.io';
+import { evaluateFile, type VSScript } from '@vscloud/native';
 
 const PORT = process.env['PORT'] || 3000;
 const ENV = process.env['NODE_ENV'] || 'development';
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server);
+
+let script: VSScript | undefined;
 
 if (ENV == 'development') {
   app.use(morgan('dev'));
@@ -12,11 +19,22 @@ if (ENV == 'development') {
   app.use(morgan('combined'));
 }
 
-const server = app.listen(PORT, () => {
-  console.log(`Server up with port: ${PORT}, env: ${ENV}`);
+io.on('connection', (socket) => {
+  socket.on('open-file', (path, callback) => {
+    if (script) {
+      script.close();
+      script = undefined;
+    }
+
+    script = evaluateFile(path);
+    callback(script.videoInfo);
+  });
+
+  socket.on('request-frame', (n, callback) => {
+    callback(script?.getFrameSync(n));
+  });
 });
 
-process.once('SIGTERM', () => {
-  server.close();
-  process.exit();
+server.listen(PORT, () => {
+  console.log(`Server up with port: ${PORT}, env: ${ENV}`);
 });
