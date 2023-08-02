@@ -1,5 +1,4 @@
 import loadBinding from 'bindings';
-import SegfaultHandler from 'segfault-handler';
 
 export interface VSVideoInfo {
   fpsNum: number;
@@ -18,8 +17,6 @@ export interface VSScript {
 export interface VSRenderBinding {
   evaluateFile(file: string): VSScript;
 }
-
-SegfaultHandler.registerHandler();
 
 const binding: VSRenderBinding = loadBinding('vscloud_native');
 export const evaluateFile = binding.evaluateFile;
