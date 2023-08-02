@@ -1,0 +1,26 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: frontend
+    volumes:
+      - './packages/frontend/src:/app/packages/frontend/src'
+      - './packages/frontend/.env:/app/packages/frontend/.env'
+      - './packages/frontend/index.html:/app/packages/frontend/index.html'
+      - './packages/frontend/tsconfig.json:/app/packages/frontend/tsconfig.json'
+      - './packages/frontend/vite.config.ts:/app/packages/frontend/vite.config.ts'
+    ports:
+      - '8080:8080'
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: server
+    volumes:
+      - './packages/server/src:/app/packages/server/src'
+      - './packages/server/tsconfig.json:/app/packages/server/tsconfig.json'
+      - './demo.vpy:/demo.vpy'
+    ports:
+      - '3000:3000'
