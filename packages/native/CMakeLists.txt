@@ -18,7 +18,9 @@ target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_JS_SRC})
 target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_JS_INC})
 
-find_package(PkgConfig)
+find_package(PkgConfig REQUIRED)
 
-pkg_search_module(VPS REQUIRED IMPORTED_TARGET vapoursynth-script)
-target_link_libraries(${PROJECT_NAME} PkgConfig::VPS)
+pkg_search_module(VSS REQUIRED IMPORTED_TARGET vapoursynth-script)
+target_link_libraries(${PROJECT_NAME} PkgConfig::VSS)
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE LIB_SUFFIX="${CMAKE_SHARED_LIBRARY_SUFFIX}")

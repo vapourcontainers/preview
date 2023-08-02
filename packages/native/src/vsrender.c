@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <dlfcn.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -171,6 +172,8 @@ evaluate_file(napi_env env, napi_callback_info info)
 NAPI_MODULE_INIT()
 {
 	char err_msg[256];
+
+	dlopen("libvapoursynth-script" LIB_SUFFIX, RTLD_LAZY | RTLD_GLOBAL);
 
 	vssapi = getVSScriptAPI(VSSCRIPT_API_VERSION);
 	if (vssapi == NULL) {
