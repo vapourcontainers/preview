@@ -58,7 +58,7 @@ RUN npm -w @vscloud/server run build
 
 # stage: runtime
 
-FROM node:20-bookworm
+FROM node:20-bookworm-slim
 
 RUN <<EOF
 echo "deb http://www.deb-multimedia.org bookworm main" >> /etc/apt/sources.list
