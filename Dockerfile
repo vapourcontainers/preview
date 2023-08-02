@@ -5,6 +5,7 @@
 FROM ghcr.io/vapourcontainers/plugin-build-base:latest AS native
 
 RUN <<EOF
+set -eux
 curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 apt-get install -y nodejs
 EOF
@@ -17,7 +18,9 @@ COPY packages/native/package.json ./packages/native/
 RUN npm ci
 
 COPY packages/native ./packages/native
+
 RUN <<EOF
+set -eux
 npm -w @vscloud/native run build
 mv ./packages/native/build/Release/vscloud_native.node ./packages/native/build/
 EOF
@@ -61,6 +64,7 @@ RUN npm -w @vscloud/server run build
 FROM node:20-bookworm-slim
 
 RUN <<EOF
+set -eux
 echo "deb http://www.deb-multimedia.org bookworm main" >> /etc/apt/sources.list
 apt-get update -oAcquire::AllowInsecureRepositories=true
 apt-get install -y --allow-unauthenticated --no-install-recommends deb-multimedia-keyring vapoursynth
