@@ -1,7 +1,7 @@
 <template>
   <a-config-provider :theme="{ algorithm: theme.darkAlgorithm, token: { borderRadius: 0 } }">
     <div :class="$style.preview">
-      <img :src="preview" v-if="preview" :style="{ width: '100%' }" />
+      <img :src="preview" v-if="preview" />
     </div>
 
     <a-modal v-model:open="scriptDialog" title="打开脚本" ok-text="确认" cancel-text="取消" @ok="loadScript">
@@ -238,21 +238,27 @@ document.addEventListener('keydown', (ev) => {
 </script>
 
 <style lang="scss" module>
-.preview {
-  display: flex;
-  padding-bottom: 48px;
-  align-items: center;
+:global(#app) {
   height: 100vh;
   width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview {
+  flex-grow: 1;
+  overflow: hidden;
   background: #303030;
   user-select: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 
 .toolbar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
   box-sizing: content-box;
   padding: 0 8px;
   background: #202021;
