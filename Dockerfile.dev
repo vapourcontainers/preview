@@ -38,7 +38,7 @@ RUN npm ci
 
 COPY --link --from=native /app/packages/native/lib ./packages/native/lib
 
-CMD ["npm", "-w", "@vscloud/frontend", "run", "dev"]
+CMD npm -w @vscloud/frontend run dev
 
 # stage: server
 
@@ -67,4 +67,4 @@ RUN npm ci
 COPY --link --from=native /app/packages/native/build/*.node ./packages/native/build/
 COPY --link --from=native /app/packages/native/lib ./packages/native/lib
 
-CMD ["npm", "-w", "@vscloud/server", "run", "dev"]
+CMD npm -w @vscloud/server run dev

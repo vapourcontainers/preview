@@ -93,4 +93,4 @@ COPY --link --from=server /app/packages/server/lib ./packages/server/lib
 ENV NODE_ENV=production \
     PORT=80
 
-CMD ["node", "/app/packages/server"]
+CMD node /app/packages/server
