@@ -1,6 +1,5 @@
 import { createServer } from 'http';
 import express from 'express';
-import morgan from 'morgan';
 import { Server } from 'socket.io';
 import { evaluateFile, type VSScript } from '@vscloud/native';
 
@@ -12,12 +11,6 @@ const server = createServer(app);
 const io = new Server(server);
 
 let script: VSScript | undefined;
-
-if (ENV == 'development') {
-  app.use(morgan('dev'));
-} else {
-  app.use(morgan('combined'));
-}
 
 if (ENV == 'production') {
   app.use(express.static(new URL('../../frontend/dist', import.meta.url).pathname));
