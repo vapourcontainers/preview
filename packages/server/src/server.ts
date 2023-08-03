@@ -6,6 +6,9 @@ import { evaluateFile, type VSScript } from '@vscloud/native';
 const PORT = process.env['PORT'] || 3000;
 const ENV = process.env['NODE_ENV'] || 'development';
 
+const argv = process.argv.slice(2);
+const scriptToLoad = argv.find((arg) => arg.toLowerCase().endsWith('.vpy'));
+
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
@@ -17,6 +20,10 @@ if (ENV == 'production') {
 }
 
 io.on('connection', (socket) => {
+  if (scriptToLoad) {
+    socket.emit('file', scriptToLoad);
+  }
+
   socket.on('open-file', (path, callback) => {
     if (script) {
       script.close();

@@ -24,3 +24,4 @@ services:
       - './demo.vpy:/demo.vpy'
     ports:
       - '3000:3000'
+    entrypoint: npm -w @vscloud/server run dev /demo.vpy

@@ -94,6 +94,11 @@ socket.on('error', (err) => {
   });
 });
 
+socket.on('file', (path) => {
+  scriptPath.value = path;
+  loadScript();
+});
+
 const frame = ref(0);
 const videoInfo = ref<VSVideoInfo>();
 const maxFrame = computed(() => videoInfo.value ? videoInfo.value.numFrames - 1 : 0);
