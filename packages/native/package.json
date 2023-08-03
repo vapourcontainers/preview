@@ -1,5 +1,5 @@
 {
-  "name": "@vscloud/native",
+  "name": "@vapourcontainers-preview/native",
   "private": true,
   "type": "module",
   "main": "lib/index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "@vscloud/server",
+  "name": "@vapourcontainers-preview/server",
   "private": true,
   "type": "module",
   "main": "lib/server.js",

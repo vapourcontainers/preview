@@ -68,7 +68,7 @@ import {
 import io from 'socket.io-client';
 import { throttle } from 'throttle-debounce';
 
-import type { VSVideoInfo } from '@vscloud/native';
+import type { VSVideoInfo } from '@vapourcontainers-preview/native';
 
 import IconButton from '@/components/IconButton.vue';
 

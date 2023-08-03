@@ -18,5 +18,5 @@ export interface VSRenderBinding {
   evaluateFile(file: string): VSScript;
 }
 
-const binding: VSRenderBinding = loadBinding('vscloud_native');
+const binding: VSRenderBinding = loadBinding('vsrender');
 export const evaluateFile = binding.evaluateFile;

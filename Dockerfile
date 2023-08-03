@@ -21,8 +21,8 @@ COPY packages/native ./packages/native
 
 RUN <<EOF
 set -eux
-npm -w @vscloud/native run build
-mv ./packages/native/build/Release/vscloud_native.node ./packages/native/build/
+npm -w @vapourcontainers-preview/native run build
+mv ./packages/native/build/Release/vsrender.node ./packages/native/build/
 EOF
 
 # stage: frontend
@@ -40,7 +40,7 @@ RUN npm ci
 COPY --link --from=native /app/packages/native/lib ./packages/native/lib
 
 COPY packages/frontend ./packages/frontend
-RUN npm -w @vscloud/frontend run build
+RUN npm -w @vapourcontainers-preview/frontend run build
 
 # stage: server
 
@@ -57,7 +57,7 @@ RUN npm ci
 COPY --link --from=native /app/packages/native/lib ./packages/native/lib
 
 COPY packages/server ./packages/server
-RUN npm -w @vscloud/server run build
+RUN npm -w @vapourcontainers-preview/server run build
 
 # stage: runtime
 

@@ -1,7 +1,7 @@
 import { createServer } from 'http';
 import express from 'express';
 import { Server } from 'socket.io';
-import { evaluateFile, type VSScript } from '@vscloud/native';
+import { evaluateFile, type VSScript } from '@vapourcontainers-preview/native';
 
 const PORT = process.env['PORT'] || 3000;
 const ENV = process.env['NODE_ENV'] || 'development';

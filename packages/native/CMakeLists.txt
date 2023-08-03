@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(vscloud_native)
+project(vsrender)
 
 add_library(${PROJECT_NAME} SHARED)
 
