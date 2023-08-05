@@ -49,13 +49,13 @@ script_get_frame_sync(napi_env env, napi_callback_info info)
 	assert(vi->format.colorFamily == cfRGB);
 	assert(vi->format.numPlanes == 3);
 
-	uint8_t *frame_data;
-	int frame_size = bitmap_get_size(vsapi, frame);
+	uint8_t *frameData;
+	int frameSize = bitmap_get_size(vsapi, frame);
 
 	napi_value buffer;
-	napi_create_buffer(env, frame_size, (void **)&frame_data, &buffer);
+	napi_create_buffer(env, frameSize, (void **)&frameData, &buffer);
 
-	bitmap_write(vsapi, frame, frame_data);
+	bitmap_write(vsapi, frame, frameData);
 
 	vsapi->freeFrame(frame);
 
@@ -108,9 +108,9 @@ evaluate_file(napi_env env, napi_callback_info info)
 		return NULL;
 	}
 
-	napi_valuetype valuetype;
-	napi_typeof(env, args[0], &valuetype);
-	if (valuetype != napi_string) {
+	napi_valuetype valueType;
+	napi_typeof(env, args[0], &valueType);
+	if (valueType != napi_string) {
 		napi_throw_error(env, "TypeError", "Invalid argument type");
 		return NULL;
 	}
@@ -157,43 +157,41 @@ evaluate_file(napi_env env, napi_callback_info info)
 	ctx->node = node;
 	ctx->videoInfo = vi;
 
-	napi_value func_get_frame_sync;
+	napi_value getFrameSync;
 	napi_create_function(env, "getFrameSync", NAPI_AUTO_LENGTH, script_get_frame_sync, (void *)ctx,
-			&func_get_frame_sync);
-	napi_set_named_property(env, result, "getFrameSync", func_get_frame_sync);
+			&getFrameSync);
+	napi_set_named_property(env, result, "getFrameSync", getFrameSync);
 
-	napi_value func_close;
-	napi_create_function(env, "close", NAPI_AUTO_LENGTH, script_close, (void *)ctx, &func_close);
-	napi_set_named_property(env, result, "close", func_close);
+	napi_value close;
+	napi_create_function(env, "close", NAPI_AUTO_LENGTH, script_close, (void *)ctx, &close);
+	napi_set_named_property(env, result, "close", close);
 
 	return result;
 }
 
 NAPI_MODULE_INIT()
 {
-	char err_msg[256];
+	char errorMsg[256];
 
 	dlopen("libvapoursynth-script" LIB_SUFFIX, RTLD_LAZY | RTLD_GLOBAL);
 
 	vssapi = getVSScriptAPI(VSSCRIPT_API_VERSION);
 	if (vssapi == NULL) {
-		sprintf(err_msg, "VSScript API %08x is not supported", VSSCRIPT_API_VERSION);
-		napi_throw_error(env, "Error", err_msg);
+		sprintf(errorMsg, "VSScript API %08x is not supported", VSSCRIPT_API_VERSION);
+		napi_throw_error(env, "Error", errorMsg);
 		return NULL;
 	}
 
 	vsapi = vssapi->getVSAPI(VAPOURSYNTH_API_VERSION);
 	if (vsapi == NULL) {
-		sprintf(err_msg, "VS API %08x is not supported", VAPOURSYNTH_API_VERSION);
-		napi_throw_error(env, "Error", err_msg);
+		sprintf(errorMsg, "VS API %08x is not supported", VAPOURSYNTH_API_VERSION);
+		napi_throw_error(env, "Error", errorMsg);
 		return NULL;
 	}
 
-	napi_value exported_function;
-	napi_create_function(
-			env, "evaluateFile", NAPI_AUTO_LENGTH, evaluate_file, NULL, &exported_function);
-
-	napi_set_named_property(env, exports, "evaluateFile", exported_function);
+	napi_value evaluateFile;
+	napi_create_function(env, "evaluateFile", NAPI_AUTO_LENGTH, evaluate_file, NULL, &evaluateFile);
+	napi_set_named_property(env, exports, "evaluateFile", evaluateFile);
 
 	return exports;
 }
